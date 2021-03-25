@@ -1,12 +1,36 @@
 Install and connect Nginx and uWSGI  
 use mysql with docker
 
+## Structure
 ![ex_structure](https://www.vndeveloper.com/wp-content/uploads/2017/07/django-behind-uwsgi-nginx.png)
 
+image orign:https://www.vndeveloper.com/django-behind-uwsgi-nginx-centos-7/
+
+
+웹 클라이언트는 웹 브라우저, 핸드폰 앱을 말하며 Django 서버로 API를 호출한다.
+
+웹 서버는 클라이언트로부터 요청(request)을 받아 정적인 데이터(HTML 파일, 이미지, Java Script 파일 등)를 처리한다. 
+정적인 데이터 요청 이외에는 뒤에 전달하고 응답(respone)을 다시 클라이언트에게 전달한다.
+웹서버 종류는 Apache, IIS, Nginx가 있고 Nginx를 사용했다.
+
+소켓은 WSGI와 웹서버 사이에 데이터를 주고 받기위한 인터페이스이다. 
+보통 외부 port를 사용하거나 리눅스에서 제공하는 소켓을 사용한다.
+
+WSGI
+WAS는 웹 애플리케이션 서버(Web Application Server, WAS)는 웹 애플리케이션과 서버 환경을 만들어 동작시키는 기능을 제공하는 소프트웨어 프레임워크이다. - Wikipedia
+
+WSGI는 웹 서버 게이트웨이 인터페이스(WSGI, Web Server Gateway Interface)는 웹 서버와 웹 애플리케이션의 인터페이스를 위한 파이썬 프레임워크다. - Wikipedia
+웹서버와 파이썬으로 구성된 웹 어플리케이션의 통신을 위해 사용된다.
+WSGI의 종류는 Bjoern, uWSGI, mod_wsgi, CherryPy, Gunicorn 등이 있다. uWSGI를 사용했다.
+
+그 뒤에는 이미 구현한 Django와 Python Python
+
+## uWSGI setting
 pip install uwsgi
 
 
-worker 연산하는 역할 프로세스 설정하면 여러개 가능(동시에처리가능)
+worker 연산하는 역할 프로세스
+설정하면 여러개 가능(동시에처리가능)
 
 client(웹브라우저)url요청->uwsgi->django
                         <-     <-응답
