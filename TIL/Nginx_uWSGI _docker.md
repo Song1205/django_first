@@ -1,6 +1,8 @@
 Install and connect Nginx and uWSGI  
 use mysql with docker
 
+![ex_structure](https://www.vndeveloper.com/wp-content/uploads/2017/07/django-behind-uwsgi-nginx.png)
+
 pip install uwsgi
 
 
