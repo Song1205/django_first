@@ -42,7 +42,9 @@ uwsgi --http :8000 --module server_dev.wsgi
 루트경로에서
 /etc/uwsgi/sites/ 폴더생성
 
-[uwsgi] base = /home/ubuntu/server_dev 
+```
+[uwsgi] 
+base = /home/ubuntu/server_dev 
 home = %(base)/venv chdir = %(base) #가상환경 경로
 module = server_dev.wsgi:application #프로젝트 경로
 
@@ -53,17 +55,23 @@ enable-threads = true # 워커를 쓰레드 기반으로 할 것인가
 pidfile = /tmp/django.pid #uwsgi 모든 프로세스 번호를 쉽게 확인
 vacuum = true #uwsgi 흔적(soket, pid)을 자동으로 지워줌
 logger = file:/tmp/uwsgi.log # log파일 기록
+```
+
+소켓을 리눅스 사용하는 이유=> 네트워크를 쓰면 헤더가 하나 더 붙는다 osi7계층에서 네트워크 계층이 있기 때문에 헤더가 하나 더 붙는다 헤더가 하나 더 붙기 때문에 다이렉트로 통신하는 것보다 속도가 더 떨어진다(오버헤더)
 
 
-소켓을 리눅스 사용하는 이유=> 네트워크를 쓰면 헤더가 하나 더 붙는다 osi7계층에서 네트워크 계층이 있기 때문에 헤더가 하나 더 붙는다 헤더가 하나 더 붙기 때문에 다이렉트로 통신하는 것보다 속도가 더 떨어진다
 마스터 프로세스는 워커프로세스를 감시 부모 프로세스로 생각하면 된다 워커들을 관제하는 마스터프로세스 마스터 로그가 찍히기 때문에 시스템을 더 잘 볼수 있다
+
+
 쓰레기 사용여부에 따라 차이가 있기 때문에 사용하는 것이 좋다
 
 tail -f uwsgi.log
 로그추적
 
 /etc/nginx/nginx.conf
+
 서버개발자에게 config 파일을 각각 어떤 의미인지 아는 게 중요 (면접에서 묻기도 좋음)
+
 sendfile : 응답을 보낼 때 파일을 read(), write()하게 되는데, 사용자 영역에서 파일을 읽고 쓰는 것이 아니라 커널 영역의 buffer를 사용해 속도를 향상하는 옵션입니다.
 
  
@@ -73,6 +81,7 @@ tcp_nopush : sendfile이 on일 때만 사용 가능한 옵션으로, 리눅스�
  
 
 tcp_nodelay : tcp_nodelay는 tcp_nopush와 반대되는 개념입니다. TCP_CORK를 사용하면 패킷을 여러 개 모아서 보낸다고 했는데, tcp_nodelay는 아무리 작은 패킷도 바로바로 전송하는 옵션입니다. 구글링 해보면 1바이트를 보낼 때 헤더 붙고 뭐 붙고 하고, 다른 패킷 없나 찾아보다가 0.2초 정도 늦게 나간다고 합니다. 근데 tcp_nodelay 키면 바로 나가는 거죠. 이 옵션은 keepalive_timeout 옵션이 켜있어야 합니다.
+
 
 
 
